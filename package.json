@@ -1,0 +1,26 @@
+{
+  "name": "shopkart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShopKart — full-stack customer authentication (Express, MongoDB, JWT cookies, React + Vite)",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently --names backend,frontend --prefix-colors blue,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "db:local": "npm run db:local -w backend",
+    "start": "npm run start -w backend",
+    "test": "npm run test -w backend",
+    "build": "npm run build -w frontend",
+    "preview": "npm run preview -w frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.5"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

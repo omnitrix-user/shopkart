@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Build output
+dist/
+build/
+coverage/
+
+# Local MongoDB data created by `npm run db:local`
+.mongo-data/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Tooling / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
