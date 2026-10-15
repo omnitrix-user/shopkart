@@ -2,7 +2,7 @@
   "name": "shopkart",
   "version": "1.0.0",
   "private": true,
-  "description": "ShopKart — full-stack customer authentication (Express, MongoDB, JWT cookies, React + Vite)",
+  "description": "ShopKart — full-stack store: auth, catalogue, wishlist, cart and Razorpay Test Mode checkout (Express, MongoDB, React + Vite)",
   "workspaces": [
     "backend",
     "frontend"
@@ -12,6 +12,7 @@
     "dev:backend": "npm run dev -w backend",
     "dev:frontend": "npm run dev -w frontend",
     "db:local": "npm run db:local -w backend",
+    "seed": "npm run seed -w backend --",
     "start": "npm run start -w backend",
     "test": "npm run test -w backend",
     "build": "npm run build -w frontend",

@@ -4,8 +4,7 @@ import HttpError from '../utils/httpError.js';
 import { JWT_ALGORITHM } from '../utils/generateToken.js';
 import { getJwtSecret } from '../config/env.js';
 import { AUTH_COOKIE_NAME, getClearCookieOptions } from '../config/cookie.js';
-
-const OBJECT_ID_PATTERN = /^[a-f0-9]{24}$/i;
+import { isObjectIdString } from '../utils/objectId.js';
 const NOT_LOGGED_IN = 'You are not logged in. Please log in to continue.';
 const SESSION_INVALID = 'Your session is invalid or has expired. Please log in again.';
 
@@ -34,7 +33,7 @@ export async function protect(req, res, next) {
     throw rejectSession();
   }
 
-  if (typeof payload?.sub !== 'string' || !OBJECT_ID_PATTERN.test(payload.sub)) {
+  if (!isObjectIdString(payload?.sub)) {
     throw rejectSession();
   }
 

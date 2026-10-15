@@ -2,6 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import customerRoutes from './routes/customer.routes.js';
+import productRoutes from './routes/product.routes.js';
+import wishlistRoutes from './routes/wishlist.routes.js';
+import cartRoutes from './routes/cart.routes.js';
+import orderRoutes from './routes/order.routes.js';
 import { errorHandler, notFound, requireDatabase } from './middlewares/error.middleware.js';
 import { getAllowedOrigins } from './config/env.js';
 import { isDatabaseConnected } from './config/db.js';
@@ -18,7 +22,7 @@ export function createApp() {
     cors({
       origin: getAllowedOrigins(),
       credentials: true,
-      methods: ['GET', 'POST', 'PATCH'],
+      methods: ['GET', 'POST', 'PATCH', 'DELETE'],
       allowedHeaders: ['Content-Type'],
     }),
   );
@@ -35,6 +39,10 @@ export function createApp() {
   });
 
   app.use('/customers', requireDatabase, customerRoutes);
+  app.use('/products', requireDatabase, productRoutes);
+  app.use('/wishlist', requireDatabase, wishlistRoutes);
+  app.use('/cart', requireDatabase, cartRoutes);
+  app.use('/orders', requireDatabase, orderRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

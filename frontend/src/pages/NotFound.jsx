@@ -13,8 +13,6 @@ export default function NotFound() {
     return () => controller.abort();
   }, [verifySession]);
 
-  const destination = status === 'authenticated' ? '/home' : '/login';
-
   return (
     <section className="container status-page" aria-labelledby="not-found-title">
       <div className="card status-card">
@@ -23,8 +21,8 @@ export default function NotFound() {
           This page is out of stock
         </h1>
         <p className="muted">The page you are looking for doesn’t exist or has moved.</p>
-        <Link to={destination} className="btn btn--primary">
-          {status === 'authenticated' ? 'Back to my account' : 'Go to login'}
+        <Link to="/products" className="btn btn--primary">
+          Browse Products
         </Link>
       </div>
     </section>

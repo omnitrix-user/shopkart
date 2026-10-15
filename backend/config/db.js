@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import Customer from '../models/customer.model.js';
+import Product from '../models/product.model.js';
 
 export async function connectDatabase(uri) {
   mongoose.set('strictQuery', true);
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
-  // Make sure the unique email index exists before accepting registrations.
-  await Customer.createIndexes();
+  // Make sure unique indexes exist before accepting writes.
+  await Promise.all([Customer.createIndexes(), Product.createIndexes()]);
   return mongoose.connection;
 }
 

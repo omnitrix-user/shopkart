@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { createApp } from './app.js';
 import { connectDatabase, disconnectDatabase } from './config/db.js';
-import { getAllowedOrigins, validateEnvironment } from './config/env.js';
+import { getAllowedOrigins, isProduction, validateEnvironment } from './config/env.js';
+import { getRazorpayWarnings } from './config/razorpay.js';
+import Product from './models/product.model.js';
+import { seedProducts } from './utils/seedProducts.js';
 
 dotenv.config({ quiet: true });
 
@@ -38,6 +41,13 @@ async function start() {
     process.exit(1);
   }
   console.log('[ShopKart] MongoDB connected.');
+
+  if (!isProduction() && (await Product.estimatedDocumentCount()) === 0) {
+    const { inserted } = await seedProducts();
+    console.log(`[ShopKart] Product catalogue was empty — added ${inserted} sample products.`);
+  }
+
+  getRazorpayWarnings().forEach((warning) => console.warn(`[ShopKart] Warning: ${warning}`));
 
   mongoose.connection.on('disconnected', () => console.warn('[ShopKart] MongoDB disconnected.'));
   mongoose.connection.on('reconnected', () => console.log('[ShopKart] MongoDB reconnected.'));

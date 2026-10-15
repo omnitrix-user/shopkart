@@ -8,6 +8,19 @@ export const PASSWORD_MIN_LENGTH = 6;
 // bcrypt only uses the first 72 bytes of its input; longer passwords are rejected instead of truncated.
 export const PASSWORD_MAX_BYTES = 72;
 
+const cartItemSchema = new mongoose.Schema(
+  {
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    quantity: {
+      type: Number,
+      default: 1,
+      min: [1, 'Quantity must be at least 1'],
+      validate: { validator: Number.isInteger, message: 'Quantity must be a whole number' },
+    },
+  },
+  { _id: false },
+);
+
 const customerSchema = new mongoose.Schema(
   {
     fullName: {
@@ -43,6 +56,15 @@ const customerSchema = new mongoose.Schema(
       default: 0,
       select: false,
     },
+    // References only: the Product collection stays the source of truth for price, stock, etc.
+    wishlist: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+      default: [],
+    },
+    cart: {
+      type: [cartItemSchema],
+      default: [],
+    },
   },
   {
     timestamps: { createdAt: true, updatedAt: false },
@@ -51,6 +73,8 @@ const customerSchema = new mongoose.Schema(
       transform(_doc, ret) {
         delete ret.password;
         delete ret.tokenVersion;
+        delete ret.wishlist;
+        delete ret.cart;
         return ret;
       },
     },

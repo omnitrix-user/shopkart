@@ -83,4 +83,45 @@ export const logoutCustomer = () => send(api.post('/customers/logout'));
 
 export const changePassword = (passwords) => send(api.patch('/customers/change-password', passwords));
 
+// ---- Products ----
+export const fetchProducts = ({ search, category } = {}, { signal } = {}) =>
+  send(api.get('/products', { params: { search: search || undefined, category: category || undefined }, signal }));
+
+export const fetchProduct = (id, { signal } = {}) => send(api.get(`/products/${encodeURIComponent(id)}`, { signal }));
+
+// ---- Wishlist (always the logged-in customer's; identified by the cookie) ----
+export const fetchWishlist = ({ signal } = {}) => send(api.get('/wishlist', { signal }));
+
+export const addToWishlist = (productId) => send(api.post(`/wishlist/${encodeURIComponent(productId)}`));
+
+export const removeFromWishlist = (productId) => send(api.delete(`/wishlist/${encodeURIComponent(productId)}`));
+
+export const toggleWishlist = (productId) => send(api.patch(`/wishlist/${encodeURIComponent(productId)}/toggle`));
+
+// ---- Cart ----
+export const fetchCart = ({ signal } = {}) => send(api.get('/cart', { signal }));
+
+export const addToCart = (productId) => send(api.post(`/cart/${encodeURIComponent(productId)}`));
+
+export const updateCartItem = (productId, quantity) =>
+  send(api.patch(`/cart/${encodeURIComponent(productId)}`, { quantity }));
+
+export const removeCartItem = (productId) => send(api.delete(`/cart/${encodeURIComponent(productId)}`));
+
+// ---- Orders & payments ----
+/** Only the shipping address is sent: the server prices the order from the database. */
+export const createPaymentOrder = (shippingAddress) =>
+  send(api.post('/orders/create-payment-order', { shippingAddress }));
+
+export const verifyPayment = (payload) => send(api.post('/orders/verify-payment', payload));
+
+export const reportPaymentFailed = (orderId) => send(api.post(`/orders/${encodeURIComponent(orderId)}/payment-failed`));
+
+export const fetchOrders = ({ signal } = {}) => send(api.get('/orders', { signal }));
+
+export const fetchOrder = (id, { signal } = {}) => send(api.get(`/orders/${encodeURIComponent(id)}`, { signal }));
+
+export const advanceOrderStatus = (id, status) =>
+  send(api.patch(`/orders/${encodeURIComponent(id)}/status`, { status }));
+
 export default api;

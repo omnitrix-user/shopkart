@@ -1,4 +1,21 @@
 import { AUTH_COOKIE_NAME } from '../../config/cookie.js';
+import Product from '../../models/product.model.js';
+
+let productCounter = 0;
+
+/** Inserts a product directly into the test database. */
+export async function createProduct(overrides = {}) {
+  productCounter += 1;
+  return Product.create({
+    name: `Test Product ${productCounter}`,
+    description: 'A product used in automated tests.',
+    price: 500,
+    category: 'Electronics',
+    image: 'https://example.com/product.jpg',
+    stock: 5,
+    ...overrides,
+  });
+}
 
 export const validCustomer = () => ({
   fullName: 'John Doe',

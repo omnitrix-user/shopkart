@@ -21,7 +21,10 @@ export function AuthProvider({ children }) {
   /** Asks the backend who is logged in. Resolves to false if superseded or aborted. */
   const verifySession = useCallback(async (signal) => {
     const requestId = ++latestRequest.current;
-    setState((previous) => ({ ...previous, status: 'checking', error: null }));
+    // An already-confirmed session is re-checked in the background so pages don't flash a loader.
+    setState((previous) =>
+      previous.status === 'authenticated' ? previous : { ...previous, status: 'checking', error: null },
+    );
 
     try {
       const customer = await fetchCurrentCustomer({ signal });

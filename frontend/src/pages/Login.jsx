@@ -37,7 +37,9 @@ export default function Login() {
     setSubmitting(true);
     try {
       await loginCustomer({ email: form.email.trim(), password: form.password });
-      navigate('/home', { replace: true });
+      const from = location.state?.from;
+      const destination = typeof from === 'string' && from.startsWith('/') && !from.startsWith('//') ? from : '/home';
+      navigate(destination, { replace: true });
     } catch (error) {
       if (error.isUnauthorized) {
         setFormError('Invalid Credentials');

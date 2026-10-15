@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import ChangePasswordForm from '../components/ChangePasswordForm.jsx';
 
@@ -97,6 +98,25 @@ export default function Home() {
         </section>
 
         <aside className="home-side">
+          <section className="card info-card" aria-labelledby="shop-title">
+            <h2 id="shop-title" className="card__title">
+              Shop
+            </h2>
+            <div className="quick-links">
+              <Link to="/products" className="btn btn--primary btn--sm">
+                Browse products
+              </Link>
+              <Link to="/wishlist" className="btn btn--outline btn--sm">
+                My wishlist
+              </Link>
+              <Link to="/cart" className="btn btn--outline btn--sm">
+                My cart
+              </Link>
+              <Link to="/orders" className="btn btn--outline btn--sm">
+                My orders
+              </Link>
+            </div>
+          </section>
           <section className="card info-card" aria-labelledby="session-title">
             <h2 id="session-title" className="card__title">
               Your session

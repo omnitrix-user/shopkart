@@ -42,6 +42,38 @@ export function validateLogin({ email, password }) {
   return errors;
 }
 
+const SHIPPING_LIMITS = {
+  fullName: ['Full name', 2, 80],
+  addressLine1: ['Address', 5, 200],
+  city: ['City', 2, 60],
+  state: ['State', 2, 60],
+};
+
+/** Strips spaces, dashes and an optional +91 / 0 prefix — same rule as the backend. */
+export const normalizeIndianPhone = (value) =>
+  value.replace(/[\s-]/g, '').replace(/^(?:\+91|91(?=\d{10}$)|0(?=\d{10}$))/, '');
+
+export function validateShippingAddress(address) {
+  const errors = {};
+
+  for (const [field, [label, min, max]] of Object.entries(SHIPPING_LIMITS)) {
+    const value = (address[field] || '').trim();
+    if (!value) errors[field] = `${label} is required`;
+    else if (value.length < min) errors[field] = `${label} must be at least ${min} characters`;
+    else if (value.length > max) errors[field] = `${label} must be at most ${max} characters`;
+  }
+
+  if (isBlank(address.phone)) errors.phone = 'Phone number is required';
+  else if (!/^[6-9]\d{9}$/.test(normalizeIndianPhone(address.phone.trim()))) {
+    errors.phone = 'Enter a valid 10-digit Indian mobile number';
+  }
+
+  if (isBlank(address.pincode)) errors.pincode = 'Pincode is required';
+  else if (!/^[1-9]\d{5}$/.test(address.pincode.trim())) errors.pincode = 'Pincode must be a valid 6-digit number';
+
+  return errors;
+}
+
 export function validatePasswordChange({ oldPassword, newPassword, confirmPassword }) {
   const errors = {};
   if (isBlank(oldPassword)) errors.oldPassword = 'Current password is required';

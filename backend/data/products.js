@@ -1,0 +1,121 @@
+// Sample catalogue for development and demos. Images: Unsplash (free to use under the Unsplash License).
+const unsplash = (id) => `https://images.unsplash.com/photo-${id}?w=800&q=80&auto=format&fit=crop`;
+
+const sampleProducts = [
+  {
+    name: 'Noise Cancelling Headphones',
+    description:
+      'Over-ear wireless headphones with active noise cancellation, 30-hour battery life and soft memory-foam cushions for all-day listening.',
+    price: 4999,
+    category: 'Electronics',
+    image: unsplash('1505740420928-5e560c06d30e'),
+    stock: 12,
+  },
+  {
+    name: 'Mechanical Keyboard',
+    description:
+      'Compact 75% mechanical keyboard with hot-swappable tactile switches, PBT keycaps and warm white backlighting.',
+    price: 2999,
+    category: 'Electronics',
+    image: unsplash('1587829741301-dc798b83add3'),
+    stock: 10,
+  },
+  {
+    name: 'Wireless Mouse',
+    description: 'Ergonomic wireless mouse with a silent click, adjustable DPI and up to 12 months of battery life.',
+    price: 1499,
+    category: 'Electronics',
+    image: unsplash('1527864550417-7fd91fc51a46'),
+    stock: 25,
+  },
+  {
+    name: 'Portable Bluetooth Speaker',
+    description: 'Water-resistant speaker with rich 360° sound, 12-hour playback and a built-in microphone for calls.',
+    price: 3499,
+    category: 'Electronics',
+    image: unsplash('1608043152269-423dbba4e7e1'),
+    stock: 2,
+  },
+  {
+    name: 'Refurbished Smartphone',
+    description: 'Certified refurbished 128 GB smartphone with a 6.1" display, dual camera and a 6-month warranty.',
+    price: 8999,
+    category: 'Electronics',
+    image: unsplash('1511707171634-5f897ff02aa9'),
+    stock: 0,
+  },
+  {
+    name: 'Classic Analog Watch',
+    description: 'Minimal analog watch with a stainless-steel case, sapphire-coated glass and a genuine leather strap.',
+    price: 5999,
+    category: 'Accessories',
+    image: unsplash('1523275335684-37898b6baf30'),
+    stock: 7,
+  },
+  {
+    name: 'Polarised Sunglasses',
+    description: 'Lightweight frames with polarised UV400 lenses that cut glare on bright days.',
+    price: 1799,
+    category: 'Accessories',
+    image: unsplash('1572635196237-14b3f281503f'),
+    stock: 18,
+  },
+  {
+    name: 'Everyday Backpack',
+    description: 'Water-repellent 22 L backpack with a padded laptop sleeve, hidden pocket and breathable straps.',
+    price: 2499,
+    category: 'Accessories',
+    image: unsplash('1553062407-98eeb64c6a62'),
+    stock: 15,
+  },
+  {
+    name: 'Running Sneakers',
+    description: 'Breathable knit running shoes with responsive cushioning and a durable rubber outsole.',
+    price: 3999,
+    category: 'Fashion',
+    image: unsplash('1542291026-7eec264c27ff'),
+    stock: 9,
+  },
+  {
+    name: 'Organic Cotton T-Shirt',
+    description: 'Soft, breathable crew-neck tee made from 100% organic cotton. Pre-shrunk for a lasting fit.',
+    price: 799,
+    category: 'Fashion',
+    image: unsplash('1521572163474-6864f9cf17ab'),
+    stock: 40,
+  },
+  {
+    name: 'Eau de Parfum',
+    description: 'A fresh, woody fragrance with notes of bergamot, cedar and amber. 100 ml.',
+    price: 2299,
+    category: 'Beauty',
+    image: unsplash('1523293182086-7651a899d37f'),
+    stock: 11,
+  },
+  {
+    name: 'Instant Camera',
+    description: 'Fun instant camera that prints credit-card-sized photos in seconds. Includes a selfie mirror.',
+    price: 6499,
+    category: 'Electronics',
+    image: unsplash('1526170375885-4d8ecf77b99f'),
+    stock: 5,
+  },
+  {
+    name: 'Ceramic Coffee Mug',
+    description: 'Hand-glazed 350 ml stoneware mug that keeps your coffee warm. Microwave and dishwasher safe.',
+    price: 449,
+    category: 'Home & Kitchen',
+    image: unsplash('1514228742587-6b1558fcca3d'),
+    stock: 30,
+  },
+  {
+    name: 'Bestselling Novel',
+    description: 'A gripping hardcover novel from this year’s bestseller list — perfect for a weekend read.',
+    price: 599,
+    category: 'Books',
+    image: unsplash('1544947950-fa07a98d237f'),
+    stock: 20,
+  },
+];
+
+export default sampleProducts;

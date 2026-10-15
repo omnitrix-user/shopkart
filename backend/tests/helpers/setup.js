@@ -17,6 +17,9 @@ process.env.BCRYPT_SALT_ROUNDS = '4';
 delete process.env.COOKIE_SAME_SITE;
 delete process.env.COOKIE_SECURE;
 delete process.env.COOKIE_DOMAIN;
+// Dummy values: Razorpay's API is always mocked in tests and never contacted.
+process.env.RAZORPAY_KEY_ID = 'rzp_test_dummykeyid000';
+process.env.RAZORPAY_KEY_SECRET = 'test-only-razorpay-secret';
 
 let memoryServer;
 

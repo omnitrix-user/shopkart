@@ -11,7 +11,7 @@ import Alert from './Alert.jsx';
 export default function ProtectedRoute({ children }) {
   const { status, error, reason, verifySession } = useAuth();
   const location = useLocation();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(status === 'authenticated');
   const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function ProtectedRoute({ children }) {
   const notice =
     reason === 'logout'
       ? { tone: 'success', text: 'You have been logged out successfully.' }
-      : { tone: 'info', text: 'Please log in to view your account.' };
+      : { tone: 'info', text: 'Please log in to continue.' };
 
   return <Navigate to="/login" replace state={{ from: location.pathname, notice }} />;
 }
