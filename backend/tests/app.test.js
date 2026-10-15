@@ -80,6 +80,44 @@ describe('configuration', () => {
   });
 });
 
+describe('single-service mode (SERVE_FRONTEND=true)', () => {
+  before(startTestDatabase);
+  after(stopTestDatabase);
+
+  it('serves the API under /api only and accepts same-origin browser requests', async () => {
+    process.env.SERVE_FRONTEND = 'true';
+    try {
+      const app = supertest(createApp());
+
+      const health = await app.get('/api/health');
+      assert.equal(health.status, 200);
+
+      const products = await app.get('/api/products');
+      assert.equal(products.status, 200);
+      assert.equal(products.body.success, true);
+
+      const rootApi = await app.post('/customers/login').send({ email: 'a@b.co', password: 'secret1' });
+      assert.equal(rootApi.status, 404);
+
+      const sameOrigin = await app
+        .options('/api/customers/login')
+        .set('Host', 'shopkart.example.com')
+        .set('Origin', 'https://shopkart.example.com')
+        .set('Access-Control-Request-Method', 'POST');
+      assert.equal(sameOrigin.headers['access-control-allow-origin'], 'https://shopkart.example.com');
+
+      const foreign = await app
+        .options('/api/customers/login')
+        .set('Host', 'shopkart.example.com')
+        .set('Origin', 'https://evil.example')
+        .set('Access-Control-Request-Method', 'POST');
+      assert.equal(foreign.headers['access-control-allow-origin'], undefined);
+    } finally {
+      delete process.env.SERVE_FRONTEND;
+    }
+  });
+});
+
 describe('database unavailable', () => {
   before(() => mongoose.disconnect());
 

@@ -5,6 +5,9 @@ const MIN_SECRET_LENGTH = 32;
 export const isProduction = () => process.env.NODE_ENV === 'production';
 export const isTest = () => process.env.NODE_ENV === 'test';
 
+/** Single-service deployment: the API also serves the built React app from frontend/dist. */
+export const shouldServeFrontend = () => process.env.SERVE_FRONTEND === 'true';
+
 export function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret || secret.trim().length < MIN_SECRET_LENGTH) {
@@ -62,7 +65,7 @@ export function validateEnvironment() {
     problems.push(error.message);
   }
 
-  if (getAllowedOrigins().length === 0) {
+  if (getAllowedOrigins().length === 0 && !shouldServeFrontend()) {
     problems.push('FRONTEND_URL must be set to the exact origin of the deployed frontend (e.g. https://shopkart.example.com).');
   }
 

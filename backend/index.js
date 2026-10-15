@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { createApp } from './app.js';
 import { connectDatabase, disconnectDatabase } from './config/db.js';
-import { getAllowedOrigins, isProduction, validateEnvironment } from './config/env.js';
+import { getAllowedOrigins, shouldServeFrontend, validateEnvironment } from './config/env.js';
 import { getRazorpayWarnings } from './config/razorpay.js';
 import Product from './models/product.model.js';
 import { seedProducts } from './utils/seedProducts.js';
@@ -42,7 +42,7 @@ async function start() {
   }
   console.log('[ShopKart] MongoDB connected.');
 
-  if (!isProduction() && (await Product.estimatedDocumentCount()) === 0) {
+  if (process.env.AUTO_SEED !== 'false' && (await Product.estimatedDocumentCount()) === 0) {
     const { inserted } = await seedProducts();
     console.log(`[ShopKart] Product catalogue was empty — added ${inserted} sample products.`);
   }
@@ -56,7 +56,11 @@ async function start() {
 
   server.on('listening', () => {
     console.log(`[ShopKart] API ready on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'})`);
-    console.log(`[ShopKart] Accepting browser requests from: ${getAllowedOrigins().join(', ')}`);
+    if (shouldServeFrontend()) {
+      console.log('[ShopKart] Serving the React app from frontend/dist; API routes are under /api');
+    } else {
+      console.log(`[ShopKart] Accepting browser requests from: ${getAllowedOrigins().join(', ')}`);
+    }
   });
 
   server.on('error', async (error) => {

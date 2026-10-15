@@ -516,9 +516,24 @@ Before pushing, double-check that `git ls-files | grep .env` prints only the two
 
 ---
 
-## 14. Deployment (optional, not performed)
+## 14. Deployment
 
-The project is deployment-ready, but **it has not been deployed**: no hosting credentials were available. For a typical setup, with the API on a Node host (Render, Railway, a VPS…) and the frontend on a static host (Vercel, Netlify…):
+### Recommended: one Render service (`render.yaml`)
+
+The repository includes a Render Blueprint. It runs **one** free web service that serves both the React app and the API, with the API under `/api`. Because the site and API share one address, the login cookie is first-party and works in every browser.
+
+1. In MongoDB Atlas → **Network Access**, add `0.0.0.0/0` (Render's IP addresses change).
+2. Sign in at <https://render.com> with GitHub, then choose **New → Blueprint** and pick this repository.
+3. Fill in `MONGODB_URI`, `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` (Test Mode). `JWT_SECRET` is generated automatically.
+4. Click **Apply**. When the deploy is live, open `https://<service-name>.onrender.com`. Sample products are added on first start.
+
+Free Render services sleep after about 15 minutes without traffic, so the first visit after that can take up to a minute.
+
+The service sets `SERVE_FRONTEND=true`, which makes Express serve `frontend/dist` and mount the API under `/api` only. Without it, for example in local development, the API is served at `/` and at `/api`.
+
+### Alternative: separate frontend and API hosts
+
+For a typical setup, with the API on a Node host (Render, Railway, a VPS…) and the frontend on a static host (Vercel, Netlify…):
 
 **API service**: root directory `backend`, build `npm install`, start `npm start`. Environment:
 
